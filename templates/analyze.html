@@ -1,0 +1,67 @@
+{% extends "master.html" %}
+
+{% block content %}
+
+<h1>Fake News Analyzer</h1>
+
+<textarea id="news" rows="6" placeholder="ใส่ข่าวที่ต้องการตรวจสอบ"></textarea>
+
+<button onclick="analyze()">วิเคราะห์</button>
+
+<div id="loading" style="display:none;">⏳ กำลังวิเคราะห์...</div>
+
+<div id="result"></div>
+
+<script>
+    function analyze() {
+        let text = document.getElementById("news").value;
+
+        document.getElementById("loading").style.display = "block";
+        document.getElementById("result").innerHTML = "";
+
+        fetch("/api/analyze", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "text=" + encodeURIComponent(text)
+        })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("loading").style.display = "none";
+
+                let result = data.result;
+                let score = data.score ?? 0;
+                let keywords = data.keywords || [];
+
+                let css = "real";
+                if (result.includes("Fake")) css = "fake";
+                else if (result.includes("Suspicious")) css = "warn";
+
+                let keywordHTML = "";
+
+                if (keywords.length > 0) {
+                    keywordHTML = `
+            <ul>
+                ${keywords.map(k => `<li>${k}</li>`).join("")}
+            </ul>
+        `;
+                } else {
+                    keywordHTML = "<p>ไม่พบคำที่น่าสงสัย</p>";
+                }
+
+                let html = `
+        <div class="result ${css}">
+            <h2>${result}</h2>
+            <p>Score: ${score}</p>
+            <p>Keywords:</p>
+            ${keywordHTML}
+        </div>
+    `;
+
+                document.getElementById("result").innerHTML = html;
+            });
+    }
+</script>
+
+{% endblock %}

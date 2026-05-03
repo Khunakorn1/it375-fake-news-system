@@ -1,0 +1,58 @@
+{% extends "master.html" %}
+
+{% block content %}
+
+<div style="max-width: 800px; margin: auto;">
+
+    <!-- หัวข้อ -->
+    <h1>{{ message }}</h1>
+    <p style="color: gray;">
+        ระบบวิเคราะห์ข่าวปลอมด้วย AI ช่วยตรวจสอบความน่าเชื่อถือของข้อมูลก่อนแชร์
+    </p>
+
+    <hr>
+
+    <!-- รายการความสามารถ -->
+    <h3>📌 ความสามารถของระบบ</h3>
+    <ul>
+        {% for x in activities %}
+            <li>{{ x }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- วิธีใช้งาน -->
+    <h3>🛠 วิธีใช้งาน</h3>
+    <ol>
+        <li>กดปุ่ม "ไปวิเคราะห์ข่าว"</li>
+        <li>วางข้อความข่าวที่ต้องการตรวจสอบ</li>
+        <li>รอระบบ AI วิเคราะห์</li>
+        <li>ดูผลลัพธ์ว่าข่าวนั้นน่าเชื่อถือหรือไม่</li>
+    </ol>
+
+    <!-- สถานะระบบ -->
+    <h3>📊 สถานะระบบ</h3>
+    <p>
+        🟢 ระบบพร้อมใช้งาน <br>
+        🤖 AI Model: Fake News Detection v1.0 <br>
+        ⏱ ใช้เวลาวิเคราะห์ประมาณ 2-5 วินาที
+    </p>
+
+    <hr>
+
+    <!-- ปุ่ม -->
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="/analyze" style="
+            background-color: #007BFF;
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+        ">
+            👉 ไปวิเคราะห์ข่าว
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}

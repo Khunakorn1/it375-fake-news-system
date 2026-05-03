@@ -1,0 +1,33 @@
+{% extends "master.html" %}
+
+{% block content %}
+
+<h1>🛠 Admin Dashboard</h1>
+
+<table border="1" cellpadding="10" style="width:100%; margin-top:20px;">
+    <tr>
+        <th>ID</th>
+        <th>Text</th>
+        <th>Result</th>
+        <th>Score</th>
+        <th>Action</th>
+    </tr>
+
+    {% for n in news_list %}
+    <tr>
+        <td>{{ n.id }}</td>
+        <td>{{ n.text }}</td>
+        <td>{{ n.result }}</td>
+        <td>{{ n.score }}</td>
+        <td>
+            <a href="/admin/delete/{{ n.id }}" 
+               style="color:red;"
+               onclick="return confirm('Delete this news?')">
+               Delete
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

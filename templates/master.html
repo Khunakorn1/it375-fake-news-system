@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>Fake News Analyzer</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+            margin: 0;
+        }
+
+        nav {
+            background: #020617;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        nav a {
+            color: #38bdf8;
+            text-decoration: none;
+            margin-right: 15px;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: #0ea5e9;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: #020617;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.6);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            margin-top: 10px;
+            background: #1e293b;
+            color: white;
+        }
+
+        button {
+            background: #38bdf8;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #0ea5e9;
+        }
+
+        .result-box {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .fake { background: #7f1d1d; }
+        .real { background: #064e3b; }
+        .warn { background: #78350f; }
+
+        ul {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    
+
+<nav>
+    <div><b>🧠 Fake News AI</b></div>
+
+    <div>
+        <a href="/">Home</a>
+        <a href="/analyze">Analyze</a>
+        <a href="/help">Help</a>
+
+        {% if user %}
+
+            {% if user == "admin" %}
+                <a href="/admin" style="color:#fbbf24;">🛠 Admin</a>
+                <span style="color:#fbbf24;">👑 Admin</span>
+            {% else %}
+                <span style="color:#38bdf8;">👤 {{ user }}</span>
+            {% endif %}
+
+            <a href="/logout">Logout</a>
+
+        {% else %}
+            <a href="/login">Login</a>
+        {% endif %}
+    </div>
+</nav>
+
+
+<div class="container">
+    <h3>🕒 Server Time: <span id="clock">Loading...</span></h3>
+    <div class="card">
+        {% block content %}{% endblock %}
+    </div>
+</div>
+<script>
+function loadTime() {
+    fetch('/api/time')
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("clock").innerText = data.time;
+        });
+}
+setInterval(loadTime, 1000);
+loadTime();
+</script>
+</body>
+</html>

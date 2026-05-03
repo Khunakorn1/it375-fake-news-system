@@ -1,0 +1,76 @@
+{% extends "master.html" %}
+
+{% block content %}
+
+<div class="result-box">
+
+    <h2>📊 ผลการวิเคราะห์</h2>
+
+    {% if is_ai %}
+    <p style="color: blue;">🤖 วิเคราะห์โดย AI</p>
+    {% else %}
+    <p style="color: orange;">⚙️ ใช้ระบบสำรอง (Keyword)</p>
+    {% endif %}
+
+    <hr>
+
+    <!-- ผลลัพธ์ -->
+    <h3>ผลลัพธ์:</h3>
+    <p style="font-size: 20px; font-weight: bold;">
+        {{ result }}
+    </p>
+
+    <!-- คะแนน -->
+    <h3>คะแนนความน่าเชื่อถือ:</h3>
+    <p>{{ score }}/100</p>
+
+    {% if score >= 70 %}
+    {% set bar_color = "green" %}
+    {% elif score >= 40 %}
+    {% set bar_color = "orange" %}
+    {% else %}
+    {% set bar_color = "red" %}
+    {% endif %}
+
+    <div style="background:#ddd; border-radius:10px; overflow:hidden; max-width:400px;">
+        <div style="
+        width: {{ score|int }}%;
+        background: {{ bar_color }};
+        color: white;
+        padding: 10px;
+        text-align: center;
+    ">
+            {{ score }}%
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- เหตุผล -->
+    <h3>🧠 เหตุผล</h3>
+    <p>
+        {{ reason if reason else "ไม่มีข้อมูลจาก AI" }}
+    </p>
+
+    <!-- คำแนะนำ -->
+    <h3>📌 คำแนะนำ</h3>
+    <p>
+        {{ advice if advice else "ควรตรวจสอบแหล่งข่าวเพิ่มเติม" }}
+    </p>
+
+</div>
+
+<!-- ข่าว -->
+<div class="news-content" style="margin-top: 20px;">
+    <h3>📰 ข้อความข่าวที่ส่งมา</h3>
+    <p style="background:#f5f5f5; padding:15px; border-radius:8px; border: 1px solid #ddd;">
+        {{ text }}
+    </p>
+</div>
+
+<br>
+
+<!-- ปุ่ม -->
+<a href="/analyze" class="btn btn-primary">🔙 วิเคราะห์ใหม่</a>
+
+{% endblock %}
