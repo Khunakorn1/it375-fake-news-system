@@ -3,3 +3,4 @@ sqlalchemy
 jinja2
 easyocr
 itsdangerous
+uvicorn
