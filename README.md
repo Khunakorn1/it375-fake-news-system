@@ -5,3 +5,7 @@ uvicorn main:app --reload
 
 ## การเพิ่ม Seeding ข้อมูล
 python seed.py
+
+## username & password
+username: admin
+password: 1234
